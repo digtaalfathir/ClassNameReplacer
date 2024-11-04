@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Class Name Replacer</title>
+    <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <h2>Class Name Replacer</h2>
@@ -20,41 +21,6 @@
     <br /><br />
     <a id="downloadLink" style="display: none">Download File Baru</a>
 
-    <script>
-      function processFile() {
-        const fileInput = document.getElementById("fileInput");
-        const oldClass = document.getElementById("oldClass").value;
-        const newClass = document.getElementById("newClass").value;
-
-        if (!fileInput.files.length) {
-          alert("Mohon unggah file .cpp terlebih dahulu.");
-          return;
-        }
-        if (!oldClass || !newClass) {
-          alert("Mohon isi nama kelas lama dan baru.");
-          return;
-        }
-
-        const file = fileInput.files[0];
-        const reader = new FileReader();
-
-        reader.onload = function (event) {
-          const fileContent = event.target.result;
-
-          // Mengganti semua nama kelas yang sesuai
-          const updatedContent = fileContent.replaceAll(oldClass, newClass);
-
-          // Membuat file baru untuk diunduh
-          const blob = new Blob([updatedContent], { type: "text/plain" });
-          const downloadLink = document.getElementById("downloadLink");
-          downloadLink.href = URL.createObjectURL(blob);
-          downloadLink.download = `updated_${file.name}`;
-          downloadLink.style.display = "inline";
-          downloadLink.textContent = "Download File Baru";
-        };
-
-        reader.readAsText(file);
-      }
-    </script>
+    <script src="script.js"></script>
   </body>
 </html>

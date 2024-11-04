@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Class Name Replacer</title>
+  </head>
+  <body>
+    <h2>Class Name Replacer</h2>
+    <p>Unggah file `.cpp` Anda dan ganti nama kelas tertentu secara otomatis.</p>
+    <label for="oldClass">Nama Kelas Lama:</label>
+    <input type="text" id="oldClass" placeholder="Contoh: CyanKananTengahBallFollower" />
+    <br /><br />
+    <label for="newClass">Nama Kelas Baru:</label>
+    <input type="text" id="newClass" placeholder="Contoh: CyanKiriTengahBallFollower" />
+    <br /><br />
+    <input type="file" id="fileInput" accept=".cpp" />
+    <br /><br />
+    <button onclick="processFile()">Proses dan Unduh</button>
+    <br /><br />
+    <a id="downloadLink" style="display: none">Download File Baru</a>
+
+    <script>
+      function processFile() {
+        const fileInput = document.getElementById("fileInput");
+        const oldClass = document.getElementById("oldClass").value;
+        const newClass = document.getElementById("newClass").value;
+
+        if (!fileInput.files.length) {
+          alert("Mohon unggah file .cpp terlebih dahulu.");
+          return;
+        }
+        if (!oldClass || !newClass) {
+          alert("Mohon isi nama kelas lama dan baru.");
+          return;
+        }
+
+        const file = fileInput.files[0];
+        const reader = new FileReader();
+
+        reader.onload = function (event) {
+          const fileContent = event.target.result;
+
+          // Mengganti semua nama kelas yang sesuai
+          const updatedContent = fileContent.replaceAll(oldClass, newClass);
+
+          // Membuat file baru untuk diunduh
+          const blob = new Blob([updatedContent], { type: "text/plain" });
+          const downloadLink = document.getElementById("downloadLink");
+          downloadLink.href = URL.createObjectURL(blob);
+          downloadLink.download = `updated_${file.name}`;
+          downloadLink.style.display = "inline";
+          downloadLink.textContent = "Download File Baru";
+        };
+
+        reader.readAsText(file);
+      }
+    </script>
+  </body>
+</html>

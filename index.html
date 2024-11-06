@@ -45,7 +45,7 @@
     </div>
 
     <div id="stepContent1" class="step-content active-content">
-      <h2>CPP</h2>
+      <h2>Cpp</h2>
       <p>Unggah file `.cpp` Anda dan ganti nama kelas tertentu secara otomatis.</p>
       <label for="oldClass1">Nama Kelas Lama:</label>
       <input type="text" id="oldClass1" placeholder="Contoh: CyanKananTengah" />
@@ -55,30 +55,29 @@
       <br /><br />
       <input type="file" id="fileInput1" accept=".cpp" />
       <br /><br />
-      <!-- <button onclick="processAndDownload1()">Proses dan Unduh</button> -->
-      <!-- <label for="oldClass2">Nama Kelas Lama:</label>
-      <input type="text" id="oldClass2" placeholder="Contoh: CyanKananTengahBallFollower" />
-      <br /><br />
-      <label for="newClass2">Nama Kelas Baru:</label>
-      <input type="text" id="newClass2" placeholder="Contoh: CyanKiriTengahBallFollower" /> -->
-      <br /><br />
       <input type="file" id="fileInput2" accept=".cpp" />
-      <br /><br />
-      <!-- <button onclick="processAndDownload2()">Proses dan Unduh</button> -->
-      <!-- <label for="oldClass3">Nama Kelas Lama:</label>
-      <input type="text" id="oldClass3" placeholder="Contoh: CyanKananTengahBallTracker" />
-      <br /><br />
-      <label for="newClass3">Nama Kelas Baru:</label>
-      <input type="text" id="newClass3" placeholder="Contoh: CyanKananTengahBallTracker" /> -->
       <br /><br />
       <input type="file" id="fileInput3" accept=".cpp" />
       <br /><br />
-      <button onclick="processAll()">Proses dan Unduh</button>
+      <button onclick="processAllcpp()">Proses dan Unduh</button>
     </div>
 
     <div id="stepContent2" class="step-content">
-      <h2>Step 2 Content</h2>
-      <p>Ini adalah konten untuk Step 2. Tambahkan konten yang sesuai di sini.</p>
+      <h2>Header</h2>
+      <p>Unggah file `.h` Anda dan ganti nama kelas tertentu secara otomatis.</p>
+      <label for="oldClass2">Nama Kelas Lama:</label>
+      <input type="text" id="oldClass2" placeholder="Contoh: CyanKananTengah" />
+      <br /><br />
+      <label for="newClass2">Nama Kelas Baru:</label>
+      <input type="text" id="newClass2" placeholder="Contoh: CyanKiriTengah" />
+      <br /><br />
+      <input type="file" id="fileInput4" accept=".h" />
+      <br /><br />
+      <!-- <input type="file" id="fileInput5" accept=".h" /> -->
+      <br /><br />
+      <!-- <input type="file" id="fileInput6" accept=".h" /> -->
+      <br /><br />
+      <button onclick="processAndDownloadHeader1()">Proses dan Unduh</button>
     </div>
 
     <div id="stepContent3" class="step-content">
@@ -94,6 +93,7 @@
     <!-- Tombol Navigasi -->
     <div class="navigation-buttons">
       <button id="prevButton" onclick="prevStep()">Previous</button>
+      </br>
       <button id="nextButton" onclick="nextStep()">Next</button>
     </div>
 

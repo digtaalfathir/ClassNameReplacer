@@ -130,10 +130,52 @@ function processAndDownload3() {
   reader.readAsText(file);
 }
 
-function processAll() {
+function processAllcpp() {
   processAndDownload1();
   processAndDownload2();
   processAndDownload3();
+}
+
+function processAndDownloadHeader1() {
+  const fileInput4 = document.getElementById("fileInput4");
+  const oldClass2 = document.getElementById("oldClass2").value;
+  const newClass2 = document.getElementById("newClass2").value;
+
+  if (!fileInput4.files.length) {
+    alert("Mohon unggah file .h terlebih dahulu.");
+    return;
+  }
+  if (!oldClass2 || !newClass2) {
+    alert("Mohon isi nama kelas lama dan baru.");
+    return;
+  }
+
+  const file = fileInput4.files[0];
+  const reader = new FileReader();
+
+  reader.onload = function (event) {
+    let fileContent = event.target.result;
+
+    // Proses pertama: Mengganti semua kemunculan nama kelas menggunakan oldClass2 dan newClass2 (seperti sebelumnya)
+    fileContent = replaceClassNames(fileContent, oldClass2, newClass2);
+
+    // Proses kedua: Mengganti semua kemunculan nama kelas dengan oldClass2 dan newClass2 yang sudah menjadi lowercase
+    const oldClass2LowerCase = oldClass2.toLowerCase();
+    const newClass2LowerCase = newClass2.toLowerCase();
+    fileContent = replaceClassNames(fileContent, oldClass2LowerCase, newClass2LowerCase);
+
+    // Mengubah nama file berdasarkan newClass2 menjadi format snake_case
+    const newClass2SnakeCase = newClass2.replace(/([a-z])([A-Z])/g, "$1_$2").toLowerCase();
+
+    // Membuat file baru untuk diunduh secara otomatis
+    const blob = new Blob([fileContent], { type: "text/plain" });
+    const downloadLink = document.createElement("a");
+    downloadLink.href = URL.createObjectURL(blob);
+    downloadLink.download = `${newClass2SnakeCase}.h`; // Menggunakan newClass2SnakeCase sebagai nama file
+    downloadLink.click();
+  };
+
+  reader.readAsText(file);
 }
 
 function replaceClassNames(fileContent, oldClass, newClass) {
@@ -143,9 +185,12 @@ function replaceClassNames(fileContent, oldClass, newClass) {
   // Konversi oldClass ke snake_case
   const oldClassSnakeCase = oldClass.replace(/([a-z])([A-Z])/g, "$1_$2").toLowerCase();
   const newClassSnakeCase = newClass.replace(/([a-z])([A-Z])/g, "$1_$2").toLowerCase();
+  const oldClassSnakeCase2 = oldClass.replace(/([a-z])([A-Z])/g, "$1_$2").toUpperCase();
+  const newClassSnakeCase2 = newClass.replace(/([a-z])([A-Z])/g, "$1_$2").toUpperCase();
 
   // Ganti semua kemunculan nama snake_case
   fileContent = fileContent.replaceAll(oldClassSnakeCase, newClassSnakeCase);
+  fileContent = fileContent.replaceAll(oldClassSnakeCase2, newClassSnakeCase2);
 
   // Menangani nama variabel yang diawali dengan kata apa pun dan diakhiri dengan nama kelas (camelCase)
   const oldClassCamelCase = oldClass.charAt(0).toLowerCase() + oldClass.slice(1);

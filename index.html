@@ -4,22 +4,81 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Class Name Replacer</title>
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.6/material.blue-indigo.min.css" />
+    <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
-    <h2>Class Name Replacer</h2>
-    <p>Unggah file `.cpp` Anda dan ganti nama kelas tertentu secara otomatis.</p>
-    <label for="oldClass">Nama Kelas Lama:</label>
-    <input type="text" id="oldClass" placeholder="Contoh: CyanKananTengahBallFollower" />
-    <br /><br />
-    <label for="newClass">Nama Kelas Baru:</label>
-    <input type="text" id="newClass" placeholder="Contoh: CyanKiriTengahBallFollower" />
-    <br /><br />
-    <input type="file" id="fileInput" accept=".cpp" />
-    <br /><br />
-    <button onclick="processFile()">Proses dan Unduh</button>
-    <br /><br />
-    <a id="downloadLink" style="display: none">Download File Baru</a>
+    <div class="mdl-card mdl-shadow--2dp">
+      <div class="mdl-card__supporting-text">
+        <div class="mdl-stepper-horizontal-alternative">
+          <div class="mdl-stepper-step active-step step-done" id="step1">
+            <div class="mdl-stepper-circle"><span>1</span></div>
+            <div class="mdl-stepper-title">Step 1</div>
+            <div class="mdl-stepper-bar-left"></div>
+            <div class="mdl-stepper-bar-right"></div>
+          </div>
+
+          <div class="mdl-stepper-step" id="step2">
+            <div class="mdl-stepper-circle"><span>2</span></div>
+            <div class="mdl-stepper-title">Step 2</div>
+            <div class="mdl-stepper-optional">Optional</div>
+            <div class="mdl-stepper-bar-left"></div>
+            <div class="mdl-stepper-bar-right"></div>
+          </div>
+
+          <div class="mdl-stepper-step" id="step3">
+            <div class="mdl-stepper-circle"><span>3</span></div>
+            <div class="mdl-stepper-title">Step 3</div>
+            <div class="mdl-stepper-optional">Optional</div>
+            <div class="mdl-stepper-bar-left"></div>
+            <div class="mdl-stepper-bar-right"></div>
+          </div>
+
+          <div class="mdl-stepper-step" id="step4">
+            <div class="mdl-stepper-circle"><span>4</span></div>
+            <div class="mdl-stepper-title">Step 4</div>
+            <div class="mdl-stepper-optional">Optional</div>
+            <div class="mdl-stepper-bar-left"></div>
+            <div class="mdl-stepper-bar-right"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="stepContent1" class="step-content active-content">
+      <h2>Class Name Replacer</h2>
+      <p>Unggah file `.cpp` Anda dan ganti nama kelas tertentu secara otomatis.</p>
+      <label for="oldClass">Nama Kelas Lama:</label>
+      <input type="text" id="oldClass" placeholder="Contoh: CyanKananTengahBallFollower" />
+      <br /><br />
+      <label for="newClass">Nama Kelas Baru:</label>
+      <input type="text" id="newClass" placeholder="Contoh: CyanKiriTengahBallFollower" />
+      <br /><br />
+      <input type="file" id="fileInput" accept=".cpp" />
+      <br /><br />
+      <button onclick="processAndDownload()">Proses dan Unduh</button>
+    </div>
+
+    <div id="stepContent2" class="step-content">
+      <h2>Step 2 Content</h2>
+      <p>Ini adalah konten untuk Step 2. Tambahkan konten yang sesuai di sini.</p>
+    </div>
+
+    <div id="stepContent3" class="step-content">
+      <h2>Step 3 Content</h2>
+      <p>Ini adalah konten untuk Step 3. Tambahkan konten yang sesuai di sini.</p>
+    </div>
+
+    <div id="stepContent4" class="step-content">
+      <h2>Step 4 Content</h2>
+      <p>Ini adalah konten untuk Step 4. Tambahkan konten yang sesuai di sini.</p>
+    </div>
+
+    <!-- Tombol Navigasi -->
+    <div class="navigation-buttons">
+      <button id="prevButton" onclick="prevStep()">Previous</button>
+      <button id="nextButton" onclick="nextStep()">Next</button>
+    </div>
 
     <script src="script.js"></script>
   </body>

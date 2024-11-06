@@ -178,6 +178,102 @@ function processAndDownloadHeader1() {
   reader.readAsText(file);
 }
 
+function processAndDownloadHeader2() {
+  const fileInput5 = document.getElementById("fileInput5");
+  let oldClass2 = document.getElementById("oldClass2").value;
+  let newClass2 = document.getElementById("newClass2").value;
+
+  if (!fileInput5.files.length) {
+    alert("Mohon unggah file .h terlebih dahulu.");
+    return;
+  }
+  if (!oldClass2 || !newClass2) {
+    alert("Mohon isi nama kelas lama dan baru.");
+    return;
+  }
+
+  oldClass2 += "BallFollower";
+  newClass2 += "BallFollower";
+
+  const file = fileInput5.files[0];
+  const reader = new FileReader();
+
+  reader.onload = function (event) {
+    let fileContent = event.target.result;
+
+    // Proses pertama: Mengganti semua kemunculan nama kelas menggunakan oldClass2 dan newClass2 (seperti sebelumnya)
+    fileContent = replaceClassNames(fileContent, oldClass2, newClass2);
+
+    // Proses kedua: Mengganti semua kemunculan nama kelas dengan oldClass2 dan newClass2 yang sudah menjadi lowercase
+    const oldClass2LowerCase = oldClass2.toLowerCase();
+    const newClass2LowerCase = newClass2.toLowerCase();
+    fileContent = replaceClassNames(fileContent, oldClass2LowerCase, newClass2LowerCase);
+
+    // Mengubah nama file berdasarkan newClass2 menjadi format snake_case
+    const newClass2SnakeCase = newClass2.replace(/([a-z])([A-Z])/g, "$1_$2").toLowerCase();
+
+    // Membuat file baru untuk diunduh secara otomatis
+    const blob = new Blob([fileContent], { type: "text/plain" });
+    const downloadLink = document.createElement("a");
+    downloadLink.href = URL.createObjectURL(blob);
+    downloadLink.download = `${newClass2SnakeCase}.h`; // Menggunakan newClass2SnakeCase sebagai nama file
+    downloadLink.click();
+  };
+
+  reader.readAsText(file);
+}
+
+function processAndDownloadHeader3() {
+  const fileInput6 = document.getElementById("fileInput6");
+  let oldClass2 = document.getElementById("oldClass2").value;
+  let newClass2 = document.getElementById("newClass2").value;
+
+  if (!fileInput6.files.length) {
+    alert("Mohon unggah file .h terlebih dahulu.");
+    return;
+  }
+  if (!oldClass2 || !newClass2) {
+    alert("Mohon isi nama kelas lama dan baru.");
+    return;
+  }
+
+  oldClass2 += "BallTracker";
+  newClass2 += "BallTracker";
+
+  const file = fileInput6.files[0];
+  const reader = new FileReader();
+
+  reader.onload = function (event) {
+    let fileContent = event.target.result;
+
+    // Proses pertama: Mengganti semua kemunculan nama kelas menggunakan oldClass2 dan newClass2 (seperti sebelumnya)
+    fileContent = replaceClassNames(fileContent, oldClass2, newClass2);
+
+    // Proses kedua: Mengganti semua kemunculan nama kelas dengan oldClass2 dan newClass2 yang sudah menjadi lowercase
+    const oldClass2LowerCase = oldClass2.toLowerCase();
+    const newClass2LowerCase = newClass2.toLowerCase();
+    fileContent = replaceClassNames(fileContent, oldClass2LowerCase, newClass2LowerCase);
+
+    // Mengubah nama file berdasarkan newClass2 menjadi format snake_case
+    const newClass2SnakeCase = newClass2.replace(/([a-z])([A-Z])/g, "$1_$2").toLowerCase();
+
+    // Membuat file baru untuk diunduh secara otomatis
+    const blob = new Blob([fileContent], { type: "text/plain" });
+    const downloadLink = document.createElement("a");
+    downloadLink.href = URL.createObjectURL(blob);
+    downloadLink.download = `${newClass2SnakeCase}.h`; // Menggunakan newClass2SnakeCase sebagai nama file
+    downloadLink.click();
+  };
+
+  reader.readAsText(file);
+}
+
+function processAllHeader() {
+  processAndDownloadHeader1();
+  processAndDownloadHeader2();
+  processAndDownloadHeader3();
+}
+
 function replaceClassNames(fileContent, oldClass, newClass) {
   // Mengganti semua kemunculan nama kelas (PascalCase dan camelCase)
   fileContent = fileContent.replaceAll(oldClass, newClass);

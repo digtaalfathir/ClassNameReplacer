@@ -11,17 +11,16 @@
     <div class="mdl-card mdl-shadow--2dp">
       <div class="mdl-card__supporting-text">
         <div class="mdl-stepper-horizontal-alternative">
-          <div class="mdl-stepper-step active-step step-done" id="step1">
+          <div class="mdl-stepper-step active-step" id="step1">
             <div class="mdl-stepper-circle"><span>1</span></div>
-            <div class="mdl-stepper-title">Step 1</div>
+            <div class="mdl-stepper-title">Cpp</div>
             <div class="mdl-stepper-bar-left"></div>
             <div class="mdl-stepper-bar-right"></div>
           </div>
 
           <div class="mdl-stepper-step" id="step2">
             <div class="mdl-stepper-circle"><span>2</span></div>
-            <div class="mdl-stepper-title">Step 2</div>
-            <div class="mdl-stepper-optional">Optional</div>
+            <div class="mdl-stepper-title">Library</div>
             <div class="mdl-stepper-bar-left"></div>
             <div class="mdl-stepper-bar-right"></div>
           </div>
@@ -46,17 +45,35 @@
     </div>
 
     <div id="stepContent1" class="step-content active-content">
-      <h2>Class Name Replacer</h2>
+      <h2>CPP</h2>
       <p>Unggah file `.cpp` Anda dan ganti nama kelas tertentu secara otomatis.</p>
-      <label for="oldClass">Nama Kelas Lama:</label>
-      <input type="text" id="oldClass" placeholder="Contoh: CyanKananTengahBallFollower" />
+      <label for="oldClass1">Nama Kelas Lama:</label>
+      <input type="text" id="oldClass1" placeholder="Contoh: CyanKananTengah" />
       <br /><br />
-      <label for="newClass">Nama Kelas Baru:</label>
-      <input type="text" id="newClass" placeholder="Contoh: CyanKiriTengahBallFollower" />
+      <label for="newClass1">Nama Kelas Baru:</label>
+      <input type="text" id="newClass1" placeholder="Contoh: CyanKiriTengah" />
       <br /><br />
-      <input type="file" id="fileInput" accept=".cpp" />
+      <input type="file" id="fileInput1" accept=".cpp" />
       <br /><br />
-      <button onclick="processAndDownload()">Proses dan Unduh</button>
+      <!-- <button onclick="processAndDownload1()">Proses dan Unduh</button> -->
+      <!-- <label for="oldClass2">Nama Kelas Lama:</label>
+      <input type="text" id="oldClass2" placeholder="Contoh: CyanKananTengahBallFollower" />
+      <br /><br />
+      <label for="newClass2">Nama Kelas Baru:</label>
+      <input type="text" id="newClass2" placeholder="Contoh: CyanKiriTengahBallFollower" /> -->
+      <br /><br />
+      <input type="file" id="fileInput2" accept=".cpp" />
+      <br /><br />
+      <!-- <button onclick="processAndDownload2()">Proses dan Unduh</button> -->
+      <!-- <label for="oldClass3">Nama Kelas Lama:</label>
+      <input type="text" id="oldClass3" placeholder="Contoh: CyanKananTengahBallTracker" />
+      <br /><br />
+      <label for="newClass3">Nama Kelas Baru:</label>
+      <input type="text" id="newClass3" placeholder="Contoh: CyanKananTengahBallTracker" /> -->
+      <br /><br />
+      <input type="file" id="fileInput3" accept=".cpp" />
+      <br /><br />
+      <button onclick="processAll()">Proses dan Unduh</button>
     </div>
 
     <div id="stepContent2" class="step-content">

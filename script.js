@@ -237,8 +237,8 @@ function processAndDownloadHeader3() {
     return;
   }
 
-  oldClass2 += "BallTracker";
-  newClass2 += "BallTracker";
+  oldClass2 += "BallTracking";
+  newClass2 += "BallTracking";
 
   const file = fileInput6.files[0];
   const reader = new FileReader();
@@ -253,6 +253,18 @@ function processAndDownloadHeader3() {
     const oldClass2LowerCase = oldClass2.toLowerCase();
     const newClass2LowerCase = newClass2.toLowerCase();
     fileContent = replaceClassNames(fileContent, oldClass2LowerCase, newClass2LowerCase);
+
+    // Setelah proses pertama selesai, tambahkan 'BallTracking' ke oldClass2 dan newClass2
+    oldClass2 = oldClass2.replace("BallTracking", "BallTracker");
+    newClass2 = newClass2.replace("BallTracking", "BallTracker");
+
+    // Proses pertama: Mengganti semua kemunculan nama kelas menggunakan oldClass2 dan newClass2 (seperti sebelumnya)
+    fileContent = replaceClassNames(fileContent, oldClass2, newClass2);
+
+    // Proses kedua: Mengganti semua kemunculan nama kelas dengan oldClass2 dan newClass2 yang sudah menjadi lowercase
+    const oldClass3LowerCase = oldClass2.toLowerCase();
+    const newClass3LowerCase = newClass2.toLowerCase();
+    fileContent = replaceClassNames(fileContent, oldClass3LowerCase, newClass3LowerCase);
 
     // Mengubah nama file berdasarkan newClass2 menjadi format snake_case
     const newClass2SnakeCase = newClass2.replace(/([a-z])([A-Z])/g, "$1_$2").toLowerCase();
@@ -296,6 +308,104 @@ function replaceClassNames(fileContent, oldClass, newClass) {
   fileContent = fileContent.replace(variableRegex, `$1${newClassCamelCase}`);
 
   return fileContent;
+}
+
+function processAndInsertCode() {
+  const fileInput = document.getElementById("fileInput7");
+  const newClassName = document.getElementById("newClassName").value;
+
+  if (!fileInput.files.length) {
+    alert("Mohon unggah file .cpp terlebih dahulu.");
+    return;
+  }
+  if (!newClassName) {
+    alert("Mohon isi nama kelas baru.");
+    return;
+  }
+
+  const file = fileInput.files[0];
+  const reader = new FileReader();
+
+  reader.onload = function (event) {
+    let fileContent = event.target.result;
+
+    // Mengubah nama class baru menjadi format snake_case
+    const newClassSnakeCase = newClassName.replace(/([a-z])([A-Z])/g, "$1_$2").toLowerCase();
+
+    // Sisipkan #include di bagian atas setelah baris #include terakhir
+    const includeRegex = /(#include\s+<.*?>\n)+/;
+    fileContent = fileContent.replace(includeRegex, `$&#include "op3_demo/${newClassSnakeCase}.h"\n`);
+
+    // Update Enum Demo_Status
+    const enumRegex = /DemoCount\s*=\s*(\d+),/;
+    const match = fileContent.match(enumRegex);
+    if (match) {
+      const lastNumber = parseInt(match[1]);
+      const newEntry = `  ${newClassName} = ${lastNumber + 1},\n  DemoCount = ${lastNumber + 2},`;
+      fileContent = fileContent.replace(enumRegex, newEntry);
+    } else {
+      alert("Tidak menemukan enum DemoCount di dalam file.");
+      return;
+    }
+
+    // Sisipkan deklarasi ROS wrapper object di bawah komentar //create ros wrapper object
+    const rosWrapperRegex = /(\/\/create ros wrapper object\n)/;
+    const newObjectLine = `  robotis_op::${newClassName} *${newClassSnakeCase} = new robotis_op::${newClassName}();\n`;
+    fileContent = fileContent.replace(rosWrapperRegex, `$1${newObjectLine}`);
+
+    // Sisipkan case baru ke dalam while loop pada switch (desired_status)
+    const caseRegex = /(switch\s*\(\s*desired_status\s*\)\s*\{)/;
+    const newCase = `
+      case ${newClassName}:
+      {
+        if (current_demo != NULL)
+          current_demo->setDemoDisable();
+
+        current_demo = ${newClassSnakeCase};
+        current_demo->setDemoEnable();
+        ROS_INFO_COND(DEBUG_PRINT, "[Start] ${newClassName.replace(/([A-Z])/g, " $1").trim()} Demo");
+        break;
+      }`;
+    fileContent = fileContent.replace(caseRegex, `$1${newCase}`);
+
+    // Sisipkan case baru dalam "if (msg->data == 'start')" pada buttonHandlerCallback
+    const startCaseRegex = /(if\s*\(\s*msg->data\s*==\s*"start"\s*\)\s*\{[^}]*?switch\s*\(\s*desired_status\s*\)\s*\{)/;
+    const startNewCase = `
+      case ${newClassName}:
+        dxlTorqueChecker();
+        break;`;
+    fileContent = fileContent.replace(startCaseRegex, `$1${startNewCase}`);
+
+    // Sisipkan case baru dalam "else if (msg->data == 'mode')" pada buttonHandlerCallback
+    const modeCaseRegex = /(else\s+if\s*\(\s*msg->data\s*==\s*"mode"\s*\)\s*\{[^}]*?switch\s*\(\s*desired_status\s*\)\s*\{)/;
+    const modeNewCase = `
+      case ${newClassName}:
+        setLED(0x04); // Ganti 0x04 sesuai nilai LED yang diinginkan
+        break;`;
+    fileContent = fileContent.replace(modeCaseRegex, `$1${modeNewCase}`);
+
+    // Sisipkan else if baru dalam void demoModeCommandCallback (pada bagian else)
+    const demoModeCallbackRegex = /(void\s+demoModeCommandCallback\s*\([^)]*\)\s*\{(?:[^}]*?)\}\s*\})/;
+    const newElseIfBlock = `
+    else if (msg->data == "${newClassSnakeCase}") 
+    {
+      desired_status = ${newClassName};
+      apply_desired = true;
+
+      dxlTorqueChecker();
+      ROS_INFO_COND(DEBUG_PRINT, "= Start Demo Mode : %d", desired_status);
+    }`;
+    fileContent = fileContent.replace(demoModeCallbackRegex, `$1${newElseIfBlock}\n  }`);
+
+    // Membuat file baru dengan konten yang sudah diperbarui
+    const blob = new Blob([fileContent], { type: "text/plain" });
+    const downloadLink = document.createElement("a");
+    downloadLink.href = URL.createObjectURL(blob);
+    downloadLink.download = "demo_node.cpp";
+    downloadLink.click();
+  };
+
+  reader.readAsText(file);
 }
 
 let currentStep = 1;

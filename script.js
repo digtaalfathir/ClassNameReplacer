@@ -385,17 +385,21 @@ function processAndInsertCode() {
     fileContent = fileContent.replace(modeCaseRegex, `$1${modeNewCase}`);
 
     // Sisipkan else if baru dalam void demoModeCommandCallback (pada bagian else)
-    const demoModeCallbackRegex = /(void\s+demoModeCommandCallback\s*\([^)]*\)\s*\{(?:[^}]*?)\}\s*\})/;
-    const newElseIfBlock = `
-    else if (msg->data == "${newClassSnakeCase}") 
-    {
-      desired_status = ${newClassName};
-      apply_desired = true;
+    const readyModeRegex = /(else\s*\{\s*if\s*\(msg->data == "soccer"\)\s*\{\s*[^}]*\}\s*)/;
 
-      dxlTorqueChecker();
-      ROS_INFO_COND(DEBUG_PRINT, "= Start Demo Mode : %d", desired_status);
-    }`;
-    fileContent = fileContent.replace(demoModeCallbackRegex, `$1${newElseIfBlock}\n  }`);
+    // Blok else if baru yang ingin disisipkan
+    const newElseIfBlock = `
+      else if (msg->data == "${newClassSnakeCase}") 
+      {
+        desired_status = ${newClassName};
+        apply_desired = true;
+  
+        dxlTorqueChecker();
+        ROS_INFO_COND(DEBUG_PRINT, "= Start Demo Mode : %d", desired_status);
+      }`;
+
+    // Menyisipkan blok baru di dalam else setelah komentar "In ready mode"
+    fileContent = fileContent.replace(readyModeRegex, `$1${newElseIfBlock}\n`);
 
     // Membuat file baru dengan konten yang sudah diperbarui
     const blob = new Blob([fileContent], { type: "text/plain" });

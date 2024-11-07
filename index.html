@@ -27,8 +27,7 @@
 
           <div class="mdl-stepper-step" id="step3">
             <div class="mdl-stepper-circle"><span>3</span></div>
-            <div class="mdl-stepper-title">Step 3</div>
-            <div class="mdl-stepper-optional">Optional</div>
+            <div class="mdl-stepper-title">Node</div>
             <div class="mdl-stepper-bar-left"></div>
             <div class="mdl-stepper-bar-right"></div>
           </div>
@@ -83,11 +82,20 @@
     <div id="stepContent3" class="step-content">
       <h2>DemoNode</h2>
       <p>Unggah file `demo_node.cpp` Anda dan ganti nama kelas tertentu secara otomatis.</p>
+
       <label for="newClassName">Nama Kelas Baru:</label>
       <input type="text" id="newClassName" placeholder="Contoh: CyanKiriTengah" />
       <br /><br />
+
+      <label for="ledColor">Pilih warna LED:</label><br />
+      <input type="checkbox" id="ledRed" value="0x01" /> Merah<br />
+      <input type="checkbox" id="ledGreen" value="0x02" /> Hijau<br />
+      <input type="checkbox" id="ledBlue" value="0x04" /> Biru<br />
+      <br />
+
       <input type="file" id="fileInput7" accept=".cpp" />
       <br /><br />
+
       <button onclick="processAndInsertCode()">Proses dan Unduh</button>
     </div>
 

@@ -377,10 +377,21 @@ function processAndInsertCode() {
     fileContent = fileContent.replace(startCaseRegex, `$1${startNewCase}`);
 
     // Sisipkan case baru dalam "else if (msg->data == 'mode')" pada buttonHandlerCallback
+    const ledRed = document.getElementById("ledRed").checked ? "0x01" : null;
+    const ledGreen = document.getElementById("ledGreen").checked ? "0x02" : null;
+    const ledBlue = document.getElementById("ledBlue").checked ? "0x04" : null;
+
+    // Mengumpulkan nilai LED yang dipilih
+    const selectedLEDs = [ledRed, ledGreen, ledBlue].filter(Boolean);
+
+    // Membuat string untuk setLED berdasarkan checkbox yang dipilih
+    const ledValueString = selectedLEDs.length > 0 ? selectedLEDs.join(" | ") : "0x00";
+
+    // Template case baru dengan setLED dinamis
     const modeCaseRegex = /(else\s+if\s*\(\s*msg->data\s*==\s*"mode"\s*\)\s*\{[^}]*?switch\s*\(\s*desired_status\s*\)\s*\{)/;
     const modeNewCase = `
       case ${newClassName}:
-        setLED(0x04); // Ganti 0x04 sesuai nilai LED yang diinginkan
+        setLED(${ledValueString});
         break;`;
     fileContent = fileContent.replace(modeCaseRegex, `$1${modeNewCase}`);
 
